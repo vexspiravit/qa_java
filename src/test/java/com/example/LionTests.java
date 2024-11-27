@@ -1,5 +1,5 @@
-import com.example.Feline;
-import com.example.Lion;
+package com.example;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -11,59 +11,57 @@ import static org.mockito.Mockito.*;
 
 public class LionTests {
 
-    private Feline felineMock;
+    private Predator predatorMock;  // Мок Predator (Feline)
 
     @Before
     public void setUp() {
-        // Создаем мок для Feline
-        felineMock = Mockito.mock(Feline.class);
+        // Создаем мок для Predator (например, Feline)
+        predatorMock = Mockito.mock(Predator.class);
     }
 
     @Test
     public void testConstructorMaleLion() throws Exception {
         // Проверяем, что у "Самца" грива есть
-        Lion lion = new Lion("Самец", felineMock);
+        Lion lion = new Lion("Самец", predatorMock);
         assertTrue(lion.doesHaveMane());
     }
 
     @Test
     public void testConstructorFemaleLion() throws Exception {
         // Проверяем, что у "Самки" грива отсутствует
-        Lion lion = new Lion("Самка", felineMock);
+        Lion lion = new Lion("Самка", predatorMock);
         assertFalse(lion.doesHaveMane());
     }
 
     @Test(expected = Exception.class)
     public void testConstructorInvalidSex() throws Exception {
         // Проверяем, что при некорректном поле выбрасывается исключение
-        new Lion("Неизвестно", felineMock);
+        new Lion("Неизвестно", predatorMock);
     }
 
     @Test
     public void testGetKittens() throws Exception {
-        // Настраиваем поведение мока
-        when(felineMock.getKittens()).thenReturn(3);
+        // Настроим поведение мока для метода getKittens
+        when(predatorMock.getKittens()).thenReturn(3);
 
-        // Создаем экземпляр Lion с моком Feline
-        Lion lion = new Lion("Самец", felineMock);
+        // Создаем экземпляр Lion с моком Predator (например, Feline)
+        Lion lion = new Lion("Самец", predatorMock);
 
         // Проверяем результат
         assertEquals(3, lion.getKittens());
-        verify(felineMock, times(1)).getKittens();
+        verify(predatorMock, times(1)).getKittens(); // Проверка, что метод был вызван один раз
     }
 
     @Test
     public void testGetFood() throws Exception {
-        // Настраиваем поведение мока
-        when(felineMock.getFood("Хищник")).thenReturn(List.of("Животные", "Птицы", "Рыба"));
+        // Настроим поведение мока для predator (Feline)
+        when(predatorMock.eatMeat()).thenReturn(List.of("Животные", "Птицы", "Рыба"));
 
-        // Создаем экземпляр Lion с моком Feline
-        Lion lion = new Lion("Самка", felineMock);
+        // Создаем экземпляр Lion с моком Predator (например, Feline)
+        Lion lion = new Lion("Самка", predatorMock);
 
-        // Проверяем результат
+        // Проверим, что результат вызова getFood совпадает с ожидаемым
         assertEquals(List.of("Животные", "Птицы", "Рыба"), lion.getFood());
-        verify(felineMock, times(1)).getFood("Хищник");
+        verify(predatorMock, times(1)).eatMeat();  // Убедимся, что eatMeat() был вызван
     }
 }
-
-
