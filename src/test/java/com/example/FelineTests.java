@@ -1,51 +1,48 @@
-import com.example.Animal;
-import com.example.Feline;
+package com.example;
+
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mockito;
 
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.*;
 
 public class FelineTests {
 
     private Feline feline;
-    private Animal animalMock;
 
     @Before
-    public void setUp() {
-        // Используем мок Animal, так как Feline наследуется от Animal
-        animalMock = Mockito.mock(Animal.class);
+    public void setUpTest() {
+        // Создаём объект Feline, не используя моки
         feline = new Feline();
     }
 
     @Test
-    public void testEatMeat() throws Exception {
-        // Мокаем метод getFood("Хищник")
-        when(animalMock.getFood("Хищник")).thenReturn(List.of("Животные", "Птицы", "Рыба"));
-        // Вызываем метод
-        List<String> food = feline.eatMeat();
-        // Проверяем результат
-        assertEquals(List.of("Животные", "Птицы", "Рыба"), food);
+    public void eatMeatReturnsCorrectFoodListTest() {
+        // Ожидаемый список еды
+        List<String> expectedFood = List.of("Мясо", "Птица", "Рыба");
+        List<String> actualFood = null;
+
+        try {
+            // Вызываем метод eatMeat
+            actualFood = feline.eatMeat();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        // Проверяем, что список еды соответствует ожидаемому
+        assertEquals(expectedFood, actualFood);
     }
 
     @Test
-    public void testGetFamily() {
-        // Проверяем метод getFamily
+    public void getFamilyReturnsCorrectFamilyNameTest() {
+        // Проверяем, что getFamily возвращает "Кошачьи"
         assertEquals("Кошачьи", feline.getFamily());
     }
 
     @Test
-    public void testGetKittensWithoutParameter() {
-        // Проверяем метод getKittens без параметра
+    public void getKittensWithoutParameterReturnsDefaultNumberTest() {
+        // Проверяем, что метод getKittens без параметра возвращает 1
         assertEquals(1, feline.getKittens());
-    }
-
-    @Test
-    public void testGetKittensWithParameter() {
-        // Проверяем метод getKittens с параметром
-        assertEquals(3, feline.getKittens(3));
     }
 }

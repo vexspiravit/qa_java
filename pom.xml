@@ -16,6 +16,7 @@
         <hamcrest.version>2.2</hamcrest.version>
         <bytebuddy.version>1.14.8</bytebuddy.version>
         <surefire.version>3.0.0</surefire.version>
+        <jacoco.version>0.8.10</jacoco.version>
     </properties>
 
     <dependencies>
@@ -72,7 +73,29 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>${surefire.version}</version>
             </plugin>
+
+            <!-- JaCoCo Plugin для анализа покрытия тестами -->
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>${jacoco.version}</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>report</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
 
 </project>
+
