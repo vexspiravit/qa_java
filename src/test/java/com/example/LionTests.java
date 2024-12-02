@@ -37,8 +37,10 @@ public class LionTests {
 
     @Test
     public void getKittensTest() throws Exception {
+        when(felineMock.getKittens()).thenReturn(3);
         Lion lion = new Lion("Самка", felineMock);
-        assertEquals(1, lion.getKittens());
+        assertEquals(3, lion.getKittens());
+        verify(felineMock, times(1)).getKittens();
     }
 
     @Test
@@ -47,11 +49,5 @@ public class LionTests {
         Lion lion = new Lion("Самка", felineMock);
         assertEquals(List.of("Животные", "Птицы", "Рыба"), lion.getFood());
         verify(felineMock, times(1)).eatMeat();
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void constructorNonFelinePredatorThrowsExceptionTest() throws Exception {
-        Predator nonFelineMock = Mockito.mock(Predator.class);
-        new Lion("Самец", nonFelineMock);
     }
 }

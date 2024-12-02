@@ -6,6 +6,7 @@ import org.junit.Test;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThrows;
 
 public class FelineTests {
 
@@ -13,23 +14,16 @@ public class FelineTests {
 
     @Before
     public void setUpTest() {
-        // Создаём объект Feline, не используя моки
+        // Инициализация объекта Feline
         feline = new Feline();
     }
 
     @Test
-    public void eatMeatReturnsCorrectFoodListTest() {
+    public void eatMeatReturnsCorrectFoodListTest() throws Exception {
         // Ожидаемый список еды
-        List<String> expectedFood = List.of("Мясо", "Птица", "Рыба");
-        List<String> actualFood = null;
-
-        try {
-            // Вызываем метод eatMeat
-            actualFood = feline.eatMeat();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
+        List<String> expectedFood = List.of("Животные", "Птицы", "Рыба");
+        // Вызываем метод eatMeat
+        List<String> actualFood = feline.eatMeat();
         // Проверяем, что список еды соответствует ожидаемому
         assertEquals(expectedFood, actualFood);
     }
@@ -44,5 +38,21 @@ public class FelineTests {
     public void getKittensWithoutParameterReturnsDefaultNumberTest() {
         // Проверяем, что метод getKittens без параметра возвращает 1
         assertEquals(1, feline.getKittens());
+    }
+
+    @Test
+    public void getKittensWithParameterReturnsSpecifiedNumberTest() {
+        // Проверяем, что метод getKittens с параметром возвращает указанное значение
+        assertEquals(3, feline.getKittens(3));
+    }
+
+    @Test
+    public void getFoodThrowsExceptionForInvalidTypeTest() {
+        // Убедимся, что метод выбрасывает исключение для некорректного типа животного
+        Exception exception = assertThrows(Exception.class, () -> {
+            feline.getFood("НекорректныйТип");
+        });
+        // Проверяем сообщение исключения
+        assertEquals("Неизвестный вид животного, используйте значение Травоядное или Хищник", exception.getMessage());
     }
 }

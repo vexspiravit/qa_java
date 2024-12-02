@@ -1,20 +1,25 @@
 package com.example;
 
-import java.util.Arrays;
 import java.util.List;
 
-public class Feline implements Predator {
+public class Feline extends Animal implements Predator {
 
     @Override
     public List<String> eatMeat() throws Exception {
-        return Arrays.asList("Мясо", "Птица", "Рыба");
+        return getFood("Хищник");
     }
 
-    public int getKittens() {
-        return 1;
-    }
-
+    @Override
     public String getFamily() {
         return "Кошачьи";
     }
+
+    public int getKittens() {
+        return getKittens(1);
+    }
+
+    public int getKittens(int kittensCount) {
+        return kittensCount;
+    }
+
 }

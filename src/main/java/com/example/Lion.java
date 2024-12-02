@@ -5,11 +5,10 @@ import java.util.List;
 public class Lion {
 
     private final boolean hasMane;
-    private final Predator predator;  // Инъекция через интерфейс
-    private final Feline feline;      // Используем Feline для getKittens()
+    private final Feline feline; // Инъекция конкретного класса Feline
 
     // Конструктор с инъекцией зависимости
-    public Lion(String sex, Predator predator) throws Exception {
+    public Lion(String sex, Feline feline) throws Exception {
         if ("Самец".equals(sex)) {
             this.hasMane = true;
         } else if ("Самка".equals(sex)) {
@@ -17,19 +16,12 @@ public class Lion {
         } else {
             throw new Exception("Используйте допустимые значения пола животного - Самец или Самка");
         }
-        this.predator = predator;
-
-        // Проверяем, является ли `predator` экземпляром `Feline`
-        if (predator instanceof Feline) {
-            this.feline = (Feline) predator;
-        } else {
-            throw new IllegalArgumentException("Predator должен быть экземпляром Feline");
-        }
+        this.feline = feline;
     }
 
     // Метод для получения количества детёнышей
     public int getKittens() {
-        return 1;  // Используем конкретную реализацию Feline
+        return feline.getKittens(); // Используем метод Feline напрямую
     }
 
     // Проверка наличия гривы
@@ -39,6 +31,6 @@ public class Lion {
 
     // Получение списка пищи
     public List<String> getFood() throws Exception {
-        return predator.eatMeat();  // Вызов метода интерфейса
+        return feline.eatMeat(); // Вызов метода Feline напрямую
     }
 }
